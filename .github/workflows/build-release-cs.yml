@@ -57,17 +57,16 @@ jobs:
       - name: Build Windows App
         run: |
           flutter build windows --release
-          ls build\windows\runner\Release\
 
       - name: Zip the binary location
-        run: Compress-Archive -Path build\windows\runner\Release\ -DestinationPath build\windows\runner\Release\scholarxiv-release-${{ github.event.release.tag_name }}.zip
+        run: Compress-Archive -Path build\windows\x64\runner\Release\ -DestinationPath build\windows\x64\runner\Release\scholarxiv-release-${{ github.event.release.tag_name }}.zip
         shell: pwsh
 
       - name: Upload Windows Zip
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
-          files: build/windows/runner/Release/scholarxiv-release-${{ github.event.release.tag_name }}.zip
+          files: build/windows/x64/runner/Release/scholarxiv-release-${{ github.event.release.tag_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -100,9 +99,7 @@ jobs:
 
       - name: Zip the binary location
         run: |
-          mkdir -p build/linux/x64/release/bundle
-          cp -r build/linux/x64/release/bundle/* build/linux/x64/release/bundle/scholarxiv-release-${{ github.event.release.tag_name }}
-          tar -czf build/linux/x64/release/bundle/scholarxiv-release-${{ github.event.release.tag_name }}.tar.gz -C build/linux/x64/release/bundle
+          tar -czf build/linux/x64/release/bundle/scholarxiv-release-${{ github.event.release.tag_name }}.tar.gz -C build/linux/x64/release/bundle/ .
 
       - name: Upload Linux Binary
         uses: softprops/action-gh-release@v2
