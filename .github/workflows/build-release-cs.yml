@@ -59,6 +59,7 @@ jobs:
 
       - name: Zip the binary location
         run: |
+          ls build\windows\runner\Release
           Compress-Archive -Path build\windows\runner\Release -DestinationPath build\windows\runner\Release\scholarxiv-release-${{ github.event.release.tag_name }}.zip
         shell: pwsh
 
@@ -71,12 +72,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-linux:
-    name: Build Linux AppImage
+    name: Build Linux Binary
     runs-on: ubuntu-latest
-    container: cirrusci/flutter:latest
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
 
       - name: Enable Linux desktop
         run: flutter config --enable-linux-desktop
