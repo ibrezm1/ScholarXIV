@@ -99,7 +99,7 @@ jobs:
 
       - name: Zip the binary location
         run: |
-          tar -czf build/linux/x64/release/bundle/scholarxiv-release-${{ github.event.release.tag_name }}.tar.gz -C build/linux/x64/release/bundle/ .
+          tar -czf build/linux/x64/release/bundle/scholarxiv-release-${{ github.event.release.tag_name }}.tar.gz build/linux/x64/release/bundle/
 
       - name: Upload Linux Binary
         uses: softprops/action-gh-release@v2
