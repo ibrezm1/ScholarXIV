@@ -45,6 +45,46 @@
 
 ☀️ **Themes**: There are three available themes to make browsing and discovering papers comfortable. Light mode, dark mode and mixed mode.
 
+## TODO
+
+- [ ] Migrate from `google_generative_ai` to `firebase_ai`.
+  ```dart
+  import 'package:firebase_core/firebase_core.dart';
+  import 'package:firebase_ai/firebase_ai.dart';
+  ```
+
+## 🚀 Getting Started
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/dagmawibabi/ScholArxiv.git
+    ```
+2.  **Navigate to the project directory:**
+    ```bash
+    cd ScholArxiv
+    ```
+3.  **Install dependencies:**
+    ```bash
+    flutter pub get
+    ```
+4.  **Clean the project (optional):**
+    ```bash
+    flutter clean
+    ```
+5.  **Run the app in debug mode:**
+    ```bash
+    flutter run
+    ```
+6.  **Run the app in release mode:**
+    ```bash
+    flutter run --release
+    ```
+7.  **Build the app for release:**
+    ```bash
+    flutter build apk --release
+    flutter build appbundle --release
+    ```
+
 ## Support, Shoutouts, Guides, Articles
 
 -   Featured in How To Men's [Best Android Apps (September 2024)](https://youtu.be/rogxS9K26LE?si=1ivVCdYZhGVj3uSF&t=392) Video

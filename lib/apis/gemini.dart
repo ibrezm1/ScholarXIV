@@ -7,10 +7,10 @@ class Gemini {
   late final GenerativeModel _model;
   late final ChatSession _chatSession;
 
-  Gemini._internal(String apiKey, String systemPrompt) {
+  Gemini._internal(String apiKey, String systemPrompt, String modelName) {
     _model = GenerativeModel(
       apiKey: apiKey,
-      model: 'gemini-1.5-flash',
+      model: modelName,
       systemInstruction: Content.system(systemPrompt),
       generationConfig: GenerationConfig(
         temperature: 1,
@@ -24,11 +24,11 @@ class Gemini {
     _chatSession = _model.startChat();
   }
 
-  static Future<Gemini> newModel(String apiKey, {Paper? paper}) async {
+  static Future<Gemini> newModel(String apiKey, String modelName, {Paper? paper}) async {
     final systemPrompt = paper != null
         ? await _getModelSystemMessage(paper)
         : await _getGeneralSystemMessage();
-    return Gemini._internal(apiKey, systemPrompt);
+    return Gemini._internal(apiKey, systemPrompt, modelName);
   }
 
   Future<ChatMessage> sendMessage(String message) async {

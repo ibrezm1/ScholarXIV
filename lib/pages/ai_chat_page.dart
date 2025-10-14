@@ -24,6 +24,7 @@ class _AIChatPageState extends State<AIChatPage> {
   TextEditingController userMessageController = TextEditingController();
   ScrollController scrollController = ScrollController();
   var apiKey = "";
+  var modelName = "gemini-2.5-flash-lite";
   List<ChatMessage> chatList = [];
   var apiKeySettingsOn = false;
   var toolsOn = true;
@@ -93,18 +94,32 @@ class _AIChatPageState extends State<AIChatPage> {
     setState(() {});
   }
 
-  void configModel() async {
+  void configAPIKeyAndModel() async {
     Box apiBox = await Hive.openBox("apibox");
     apiKey = await apiBox.get("apikey") ?? "";
+    modelName = await apiBox.get("model") ?? "gemini-2.5-flash-lite";
+    if (modelName == "") {
+      modelName = "gemini-2.5-flash-lite";
+    }
     await Hive.close();
 
     if (apiKey.isNotEmpty) {
-      model = await Gemini.newModel(apiKey, paper: widget.paperData);
+      model = await Gemini.newModel(apiKey, modelName, paper: widget.paperData);
       apiKeySettingsOn = false;
     } else {
       apiKeySettingsOn = true;
     }
     setState(() {});
+  }
+
+  void configModelName() async {
+    Box apiBox = await Hive.openBox("apibox");
+    modelName = await apiBox.get("model") ?? "gemini-2.5-flash-lite";
+    if (modelName == "") {
+      modelName = "gemini-2.5-flash-lite";
+    }
+    await Hive.close();
+    configAPIKeyAndModel();
   }
 
   void toggleAPIKeySettings() {
@@ -131,7 +146,7 @@ class _AIChatPageState extends State<AIChatPage> {
   void initState() {
     super.initState();
     getToggleTools();
-    configModel();
+    configAPIKeyAndModel();
   }
 
   @override
@@ -206,7 +221,8 @@ class _AIChatPageState extends State<AIChatPage> {
                           ),
                           apiKeySettingsOn == true
                               ? APISettings(
-                                  configAPIKey: configModel,
+                                  configAPIKey: configAPIKeyAndModel,
+                                  configModel: configModelName,
                                 )
                               : PromptSuggestions(
                                   chatWithAI: chatWithAI,
